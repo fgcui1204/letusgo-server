@@ -10,6 +10,11 @@ router.get('/', function(req, res) {
     res.send(JSON.stringify(reply));
   });
 });
-
+router.post('/',function(req,res){
+  var cartItems = req.body.cartItems || [];
+  client.set('cartItems',JSON.stringify(cartItems),function(err,reply){
+    res.send(reply);
+  });
+});
 module.exports = router;
 
