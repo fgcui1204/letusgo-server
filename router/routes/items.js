@@ -17,7 +17,8 @@ client.set('items',JSON.stringify(items));
 router.get('/', function(req, res) {
   //TODO: Need to implement.
   client.get('items',function(err,reply){
-    res.send(JSON.stringify(reply));
+    console.log(typeof reply);
+    res.send(reply);
   });
 });
 
