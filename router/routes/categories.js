@@ -44,5 +44,21 @@ router.post('/',function(req,res){
 
 });
 
+router.put('/:sid', function(req, res) {
+  var sort = req.param('sort');
+  var sid = req.params.sid;
+
+  client.get('sorts', function (err, reply) {
+    var sorts = JSON.parse(reply);
+    var index = _.findIndex(sorts, {'sid': sid});
+
+    sorts[index] = sort;
+
+    client.set('sorts', JSON.stringify(sorts), function (err, reply) {
+      res.send(sorts);
+    });
+  });
+});
+
 module.exports = router;
 
