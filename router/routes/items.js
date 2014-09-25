@@ -28,13 +28,15 @@ router.delete('/:barcode', function(req, res) {
     var barcode = req.params.barcode;
     var items = reply;
 
-    var afterDeleteItems = _.filter(items, function (item) {
+    var afterDeleteItems = _.find(items, function (item) {
+      console.log(items);
+      console.log(item.barcode+'==============');
       return item.barcode !== barcode;
     });
-
-    client.set('items',JSON.stringify(afterDeleteItems),function(err,reply){
-      res.send(reply);
-    });
+    console.log(afterDeleteItems);
+//    client.set('items',JSON.stringify(afterDeleteItems),function(err,reply){
+//      res.send(reply);
+//    });
   });
 });
 
@@ -52,8 +54,8 @@ router.put('/:barcode', function(req, res) {
       res.send(items);
     });
   });
-
-
 });
+
+
 module.exports = router;
 
