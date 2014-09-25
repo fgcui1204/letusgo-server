@@ -14,7 +14,7 @@ var sorts = [
 client.set('sorts',JSON.stringify(sorts));
 router.get('/', function(req, res) {
   client.get('sorts',function(err,reply){
-    res.send(JSON.stringify(reply));
+    res.send(reply);
   });
 });
 
