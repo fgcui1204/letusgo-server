@@ -5,6 +5,8 @@ var router = express.Router();
 var redis = require('redis');
 var client = redis.createClient();
 
+var _ = require('lodash');
+
 var items = [
   {barcode:'1', productSort: {sid: '1', sname: '水果'}, productName: '苹果', productPrice: '10', productUnit: '千克'},
   {barcode:'2', productSort: {sid: '1', sname: '水果'}, productName: '香蕉', productPrice: '5', productUnit: '千克'},
@@ -14,10 +16,25 @@ var items = [
   {barcode:'6', productSort: {sid: '3', sname: '服装'}, productName: '阿迪T恤', productPrice: '200', productUnit: '件'}
 ];
 client.set('items',JSON.stringify(items));
+
 router.get('/', function(req, res) {
-  //TODO: Need to implement.
   client.get('items',function(err,reply){
     res.send(reply);
+  });
+});
+
+router.delete('/:barcode', function(req, res) {
+  client.get('items',function(err,reply){
+    var barcode = req.params.barcode;
+    var items = reply;
+
+    var afterDeleteItems = _.filter(items, function (item) {
+      return item.barcode !== barcode;
+    });
+    console.log(barcode);
+    client.set('items',JSON.stringify(afterDeleteItems),function(err,reply){
+      res.send(reply);
+    });
   });
 });
 
