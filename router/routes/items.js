@@ -56,6 +56,18 @@ router.put('/:barcode', function(req, res) {
   });
 });
 
+router.post('/',function(req,res){
+  var item = req.param('item');
+  client.get('items', function (err, reply) {
+    var items = JSON.parse(reply);
+    item.barcode = parseInt(items[items.length-1].barcode)+1+'';
+    items.push(item);
+    console.log(items);
+    client.set('items', JSON.stringify(items), function (err, reply) {
+      res.send(items);
+    });
+  });
 
+});
 module.exports = router;
 
