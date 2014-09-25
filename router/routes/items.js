@@ -31,12 +31,26 @@ router.delete('/:barcode', function(req, res) {
     var afterDeleteItems = _.filter(items, function (item) {
       return item.barcode !== barcode;
     });
-    console.log(barcode);
+
     client.set('items',JSON.stringify(afterDeleteItems),function(err,reply){
       res.send(reply);
     });
   });
 });
 
+router.put('/:barcode', function(req, res) {
+  var item = req.param('item');
+  var barcode = req.params.barcode;
+
+  client.get('items', function (err, reply) {
+    var items = JSON.parse(reply);
+    var index = _.findIndex(reply, {'barcode': parseInt(barcode)});
+    items[index] = item;
+  });
+
+  client.set('items', JSON.stringify(items), function (err, reply) {
+    res.send(reply);
+  });
+});
 module.exports = router;
 
