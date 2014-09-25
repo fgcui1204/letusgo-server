@@ -57,15 +57,23 @@ router.put('/:barcode', function(req, res) {
 });
 
 router.post('/',function(req,res){
-  var item = req.param('item');
+  var product = req.param('item');
   client.get('items', function (err, reply) {
     var items = JSON.parse(reply);
-    item.barcode = parseInt(items[items.length-1].barcode)+1+'';
-    items.push(item);
-    console.log(items);
-    client.set('items', JSON.stringify(items), function (err, reply) {
-      res.send(items);
-    });
+    var isTheRepeat = [];
+      _.forEach(items, function (item) {
+        if (item.productName === product.productName) {
+          isTheRepeat = item.productName;
+        }
+      });
+      if (isTheRepeat.toString() === '') {
+        product.barcode = parseInt(items[items.length - 1].barcode) + 1 + '';
+        items.push(product);
+        client.set('items', JSON.stringify(items), function (err, reply) {
+          res.send(items);
+        });
+      }
+
   });
 
 });
