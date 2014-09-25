@@ -44,13 +44,16 @@ router.put('/:barcode', function(req, res) {
 
   client.get('items', function (err, reply) {
     var items = JSON.parse(reply);
-    var index = _.findIndex(reply, {'barcode': parseInt(barcode)});
+    var index = _.findIndex(items, {'barcode': barcode});
+
     items[index] = item;
+
+    client.set('items', JSON.stringify(items), function (err, reply) {
+      res.send(items);
+    });
   });
 
-  client.set('items', JSON.stringify(items), function (err, reply) {
-    res.send(reply);
-  });
+
 });
 module.exports = router;
 
