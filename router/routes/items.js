@@ -26,17 +26,17 @@ router.get('/', function(req, res) {
 router.delete('/:barcode', function(req, res) {
   client.get('items',function(err,reply){
     var barcode = req.params.barcode;
-    var items = reply;
+    var items = JSON.parse(reply);
 
-    var afterDeleteItems = _.find(items, function (item) {
+    var afterDeleteItems = _.filter(items, function (item) {
       console.log(items);
       console.log(item.barcode+'==============');
       return item.barcode !== barcode;
     });
     console.log(afterDeleteItems);
-//    client.set('items',JSON.stringify(afterDeleteItems),function(err,reply){
-//      res.send(reply);
-//    });
+    client.set('items',JSON.stringify(afterDeleteItems),function(err,reply){
+      res.send(reply);
+    });
   });
 });
 
