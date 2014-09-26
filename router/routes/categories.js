@@ -60,5 +60,19 @@ router.put('/:sid', function(req, res) {
   });
 });
 
+router.delete('/:sid', function(req, res) {
+  client.get('sorts',function(err,reply){
+    var sid = req.params.sid;
+    var sorts = JSON.parse(reply);
+
+    var afterDeleteSorts = _.filter(sorts, function (sort) {
+      return sort.sid !== sid;
+    });
+
+    client.set('sorts',JSON.stringify(afterDeleteSorts),function(err,reply){
+      res.send(reply);
+    });
+  });
+});
 module.exports = router;
 
