@@ -29,11 +29,8 @@ router.delete('/:barcode', function(req, res) {
     var items = JSON.parse(reply);
 
     var afterDeleteItems = _.filter(items, function (item) {
-      console.log(items);
-      console.log(item.barcode+'==============');
       return item.barcode !== barcode;
     });
-    console.log(afterDeleteItems);
     client.set('items',JSON.stringify(afterDeleteItems),function(err,reply){
       res.send(reply);
     });
