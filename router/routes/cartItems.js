@@ -5,16 +5,18 @@ var router = express.Router();
 var redis = require('redis');
 var client = redis.createClient();
 
-router.get('/', function(req, res) {
-  client.get('cartItems',function(err,reply){
+router.get('/', function (req, res) {
+  client.get('cartItems', function (err, reply) {
     res.send(reply);
   });
 });
-router.post('/',function(req,res){
+
+router.post('/', function (req, res) {
   var cartItems = req.body.cartItems || [];
-  client.set('cartItems',JSON.stringify(cartItems),function(err,reply){
+  client.set('cartItems', JSON.stringify(cartItems), function (err, reply) {
     res.send(reply);
   });
 });
+
 module.exports = router;
 

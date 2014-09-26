@@ -14,15 +14,15 @@ var sorts = [
   {sid: '4', sname: '蔬菜'}
 ];
 
-client.set('sorts',JSON.stringify(sorts));
+client.set('sorts', JSON.stringify(sorts));
 
-router.get('/', function(req, res) {
-  client.get('sorts',function(err,reply){
+router.get('/', function (req, res) {
+  client.get('sorts', function (err, reply) {
     res.send(reply);
   });
 });
 
-router.post('/',function(req,res){
+router.post('/', function (req, res) {
   var category = req.param('sort');
   client.get('sorts', function (err, reply) {
     var sorts = JSON.parse(reply);
@@ -44,7 +44,7 @@ router.post('/',function(req,res){
 
 });
 
-router.put('/:sid', function(req, res) {
+router.put('/:sid', function (req, res) {
   var sort = req.param('sort');
   var sid = req.params.sid;
 
@@ -60,8 +60,8 @@ router.put('/:sid', function(req, res) {
   });
 });
 
-router.delete('/:sid', function(req, res) {
-  client.get('sorts',function(err,reply){
+router.delete('/:sid', function (req, res) {
+  client.get('sorts', function (err, reply) {
     var sid = req.params.sid;
     var sorts = JSON.parse(reply);
 
@@ -69,7 +69,7 @@ router.delete('/:sid', function(req, res) {
       return sort.sid !== sid;
     });
 
-    client.set('sorts',JSON.stringify(afterDeleteSorts),function(err,reply){
+    client.set('sorts', JSON.stringify(afterDeleteSorts), function (err, reply) {
       res.send(reply);
     });
   });
