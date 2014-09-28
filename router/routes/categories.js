@@ -27,15 +27,15 @@ router.post('/', function (req, res) {
   client.get('sorts', function (err, reply) {
 
     var sorts = JSON.parse(reply);
-    var isTheRepeat = '';
+    var exist = '';
 
     _.forEach(sorts, function (sort) {
       if (sort.sname === category.sname) {
-        isTheRepeat = sort.sname;
+        exist = sort.sname;
       }
     });
 
-    if (isTheRepeat.toString() === '') {
+    if (exist.toString() === '') {
       var lastId = sorts[sorts.length - 1].sid;
       category.sid = (parseInt(lastId) + 1).toString();
       sorts.push(category);
