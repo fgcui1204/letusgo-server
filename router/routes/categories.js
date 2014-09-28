@@ -25,15 +25,19 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
   var category = req.param('sort');
   client.get('sorts', function (err, reply) {
+
     var sorts = JSON.parse(reply);
-    var isTheRepeat = [];
+    var isTheRepeat = '';
+
     _.forEach(sorts, function (sort) {
       if (sort.sname === category.sname) {
         isTheRepeat = sort.sname;
       }
     });
+
     if (isTheRepeat.toString() === '') {
-      category.sid = parseInt(sorts[sorts.length - 1].sid) + 1 + '';
+      var lastId = sorts[sorts.length - 1].sid;
+      category.sid = (parseInt(lastId) + 1).toString();
       sorts.push(category);
       client.set('sorts', JSON.stringify(sorts), function (err, reply) {
         res.send(sorts);
